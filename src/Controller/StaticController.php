@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class StaticController extends AbstractController
+{
+    #[Route('/', 'app_homepage')]
+    public function home(): Response
+    {
+        return $this->render('static/home.html.twig');
+    }
+
+
+    #[Route('/test', 'app_test')]
+    public function test(): Response
+    {
+        return $this->render('static/home.html.twig');
+    }
+}

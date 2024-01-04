@@ -11,10 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class WeatherController extends AbstractController
 {
 
-    // #[Route('/weather/highlandersays/{guess}', methods:['GET', 'POST'], priority:1)]
-    public function highlanderSaysGuess($guess): Response
+    #[Route('/weather/highlandersays/{threshold</d+>?50}')]
+    public function highlanderSays(int $threshold): Response
     {
-        $forecast ="It's going to $guess!";
+
+        $draw = rand(1, 100);
+        $forecast = $draw < $threshold ? "It's going to rain!" : "It's going to be sunny";
 
         return $this->render('weather/highlander_says.html.twig',
             [
@@ -23,12 +25,10 @@ class WeatherController extends AbstractController
         );
     }
 
-    // #[Route('/weather/highlandersays/{threshold}', methods:['GET', 'POST'], requirements: ['threshold' => '\d+'], priority:2)]
-    public function highlanderSays(int $threshold = 50): Response
+    #[Route('/weather/highlandersays/{guess}')]
+    public function highlanderSaysGuess($guess): Response
     {
-
-        $draw = rand(1, 100);
-        $forecast = $draw < $threshold ? "It's going to rain!" : "It's going to be sunny";
+        $forecast ="It's going to $guess!";
 
         return $this->render('weather/highlander_says.html.twig',
             [

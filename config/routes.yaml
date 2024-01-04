@@ -4,15 +4,14 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-weater_prediction:
-    path: weather/highlandersays/{threshold}
-    controller: App\Controller\WeatherController::highlanderSays
-    methods: POST|GET
-    defaults:
-        threshold: 50
-    requirements:
-        threshold: \d+
+# weater_prediction:
+#     path: weather/highlandersays/{threshold}
+#     controller: App\Controller\WeatherController::highlanderSays
+#     defaults:
+#         threshold: 50
+#     requirements:
+#         threshold: \d+
 
-weater_guess:
-    path: weather/highlandersays/{guess}
-    controller: App\Controller\WeatherController::highlanderSaysGuess
+# weater_guess:
+#     path: weather/highlandersays/{guess}
+#     controller: App\Controller\WeatherController::highlanderSaysGuess

@@ -15,11 +15,4 @@ class StaticController extends AbstractController
     {
         return $this->render('static/home.html.twig');
     }
-
-
-    #[Route('/test', 'app_test')]
-    public function test(): Response
-    {
-        return $this->render('static/home.html.twig');
-    }
 }

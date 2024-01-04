@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StaticController extends AbstractController
 {
-    #[Route('/', 'app_homepage')]
+    // #[Route('/', 'app_homepage')]
     public function home(): Response
     {
         return $this->render('static/home.html.twig');

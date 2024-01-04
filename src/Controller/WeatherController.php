@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WeatherController extends AbstractController
 {
 
-    #[Route('/weather/highlandersays/{threshold</d+>?50}')]
+    // #[Route('/weather/highlandersays/{threshold</d+>?50}')]
     public function highlanderSays(int $threshold): Response
     {
 
@@ -25,7 +25,7 @@ class WeatherController extends AbstractController
         );
     }
 
-    #[Route('/weather/highlandersays/{guess}')]
+    // #[Route('/weather/highlandersays/{guess}')]
     public function highlanderSaysGuess($guess): Response
     {
         $forecast ="It's going to $guess!";

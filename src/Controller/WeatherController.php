@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WeatherController extends AbstractController
 {
-    // #[Route('/weather/highlandersays')]
+    #[Route('/weather/highlandersays', methods:['GET', 'POST'])]
     public function highlanderSays(): Response
     {
 

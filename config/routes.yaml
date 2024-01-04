@@ -7,3 +7,4 @@ controllers:
 weater_prediction:
     path: weather/highlandersays
     controller: App\Controller\WeatherController::highlanderSays
+    methods: POST|GET

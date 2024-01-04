@@ -4,7 +4,7 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-weater_prediction:
-    path: weather/highlandersays
-    controller: App\Controller\WeatherController::highlanderSays
-    methods: POST|GET
+# weater_prediction:
+#     path: weather/highlandersays/{threshold}
+#     controller: App\Controller\WeatherController::highlanderSays
+#     methods: POST|GET

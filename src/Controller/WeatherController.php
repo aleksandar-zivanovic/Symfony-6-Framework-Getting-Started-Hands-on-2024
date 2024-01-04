@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WeatherController extends AbstractController
 {
     #[Route('/weather/highlandersays/{threshold}', methods:['GET', 'POST'])]
-    public function highlanderSays(int $threshold): Response
+    public function highlanderSays(int $threshold = 50): Response
     {
 
         $draw = rand(1, 100);

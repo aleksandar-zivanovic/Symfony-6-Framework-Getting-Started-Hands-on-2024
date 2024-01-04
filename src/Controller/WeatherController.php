@@ -8,10 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/weather', name: 'weather_')]
 class WeatherController extends AbstractController
 {
 
-    // #[Route('/weather/highlandersays/{threshold<\d+>?50}')]
+    #[Route('/highlandersays/{threshold<\d+>?50}', name: 'highlandersays')]
     public function highlanderSays(int $threshold): Response
     {
 
@@ -25,7 +26,7 @@ class WeatherController extends AbstractController
         );
     }
 
-    // #[Route('/weather/highlandersays/{guess}')]
+    #[Route('/highlandersays/{guess}', name: 'highlanderguess')]
     public function highlanderSaysGuess($guess): Response
     {
         $forecast ="It's going to $guess!";

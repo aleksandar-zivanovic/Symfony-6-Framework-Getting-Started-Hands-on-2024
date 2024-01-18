@@ -5,4 +5,17 @@
 {% block body %}
     <h1>Forecast prediction</h1>
 	{{ forecast }}
+
+    <nav>
+        <a href="{{ path('app_weather_highlandersays', {trashold:25}) }}">Try Again!</a>
+    </nav>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        const route = "{{ url('app_weather_highlandersays')|escape('js') }}";
+        console.log(route);
+    </script>
 {% endblock %}

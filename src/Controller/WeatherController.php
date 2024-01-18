@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/weather')]
 class WeatherController extends AbstractController
@@ -18,7 +19,14 @@ class WeatherController extends AbstractController
     {
         $draw = rand(1, 100);
         $forecast = $draw < $threshold ? "It's going to rain!" : "It's going to be sunny";
-        $json = ['forecast' => $forecast];
+        $json = [
+            'forecast' => $forecast,
+            'self' => $this->generateUrl(
+                route: 'app_weather_highlandersaysapi', 
+                parameters: ['threshold' => $threshold],
+                referenceType: UrlGeneratorInterface::ABSOLUTE_PATH,
+            ),
+        ];
         return new JsonResponse($json);
     }
 
@@ -29,11 +37,7 @@ class WeatherController extends AbstractController
         $draw = rand(1, 100);
         $forecast = $draw < $threshold ? "It's going to rain!" : "It's going to be sunny";
 
-        return $this->render('weather/highlander_says.html.twig',
-            [
-                'forecast' => $forecast,
-            ]
-        );
+        return $this->render('weather/highlander_says.html.twig', ['forecast' => $forecast,]);
     }
 
     #[Route('/highlandersays/{guess}')]

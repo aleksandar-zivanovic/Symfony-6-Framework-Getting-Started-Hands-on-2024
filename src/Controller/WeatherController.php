@@ -7,6 +7,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -14,13 +15,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class WeatherController extends AbstractController
 {
 
-    #[Route('/highlandersays/{threshold<\d+>?50}', host:'api.localhost')]
-    public function highlanderSaysApi(int $threshold): Response
+    #[Route('/highlandersays/api')]
+    public function highlanderSaysApi(#[MapQueryParameter] int $threshold = 50): Response
     {
         $draw = rand(1, 100);
         $forecast = $draw < $threshold ? "It's going to rain!" : "It's going to be sunny";
         $json = [
             'forecast' => $forecast,
+            'threshold' => $threshold,
             'self' => $this->generateUrl(
                 route: 'app_weather_highlandersaysapi', 
                 parameters: ['threshold' => $threshold],

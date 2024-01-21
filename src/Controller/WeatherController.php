@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\HighlanderApiDTO;
-use App\Model\TestDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -67,39 +64,5 @@ class WeatherController extends AbstractController
                 'forecast' => $forecast,
             ]
         );
-    }
-
-    #[Route('/test')]
-    public function test(#[MapQueryString] ?TestDto $testDto): Response
-    {
-        $content = "";
-        foreach ($testDto as $key => $value) {
-            $content .= "$key => $value <br>";
-        }
-
-        $fullContent = "<html><body><div> $content </div></body></html>";
-        
-        return new Response($fullContent);
-    }
-
-    #[Route(path: '/test/MapQueryParameter')]
-    public function testMapQueryParameter(
-        #[MapQueryParameter] array $ids,
-        #[MapQueryParameter] string $firstName,
-        #[MapQueryParameter] string $required,
-        #[MapQueryParameter] int $age,
-        #[MapQueryParameter] string $category = 'music',
-        #[MapQueryParameter] ?string $theme = null,
-    ): Response
-    {
-        // https://127.0.0.1:8000/weather/test/MapQueryParameter?ids[]=1&ids[]=2&firstName=Ruud&required=true&age=123
-        $content = "ids = " . implode(", ", $ids) . "<br>";
-        $content .= "firstname =  $firstName  <br>";
-        $content .= "required =  $required  <br>";
-        $content .= "age =  $age  <br>";
-        $content .= "category =  $category  <br>";
-        $content .= "theme =  $theme  <br>";
-
-        return new Response($content);
     }
 }

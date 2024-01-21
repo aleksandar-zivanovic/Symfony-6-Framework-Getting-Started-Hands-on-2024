@@ -81,4 +81,25 @@ class WeatherController extends AbstractController
         
         return new Response($fullContent);
     }
+
+    #[Route(path: '/test/MapQueryParameter')]
+    public function testMapQueryParameter(
+        #[MapQueryParameter] array $ids,
+        #[MapQueryParameter] string $firstName,
+        #[MapQueryParameter] string $required,
+        #[MapQueryParameter] int $age,
+        #[MapQueryParameter] string $category = 'music',
+        #[MapQueryParameter] ?string $theme = null,
+    ): Response
+    {
+        // https://127.0.0.1:8000/weather/test/MapQueryParameter?ids[]=1&ids[]=2&firstName=Ruud&required=true&age=123
+        $content = "ids = " . implode(", ", $ids) . "<br>";
+        $content .= "firstname =  $firstName  <br>";
+        $content .= "required =  $required  <br>";
+        $content .= "age =  $age  <br>";
+        $content .= "category =  $category  <br>";
+        $content .= "theme =  $theme  <br>";
+
+        return new Response($content);
+    }
 }

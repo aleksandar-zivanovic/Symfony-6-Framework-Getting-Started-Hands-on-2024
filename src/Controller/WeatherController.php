@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\HighlanderApiDTO;
+use App\Model\TestDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
@@ -65,5 +67,18 @@ class WeatherController extends AbstractController
                 'forecast' => $forecast,
             ]
         );
+    }
+
+    #[Route('/test')]
+    public function test(#[MapQueryString] ?TestDto $testDto): Response
+    {
+        $content = "";
+        foreach ($testDto as $key => $value) {
+            $content .= "$key => $value <br>";
+        }
+
+        $fullContent = "<html><body><div> $content </div></body></html>";
+        
+        return new Response($fullContent);
     }
 }

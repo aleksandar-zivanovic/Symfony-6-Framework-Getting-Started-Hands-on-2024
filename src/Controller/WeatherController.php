@@ -90,4 +90,46 @@ class WeatherController extends AbstractController
             ]
         );
     }
+
+    #[Route('/{countryCode}/{location}')]
+    public function forecastForLocation(string $countryCode, string $location): Response
+    {
+        $dummyData = [
+            [
+                'Date' => '2024-01-23', 
+                'Temperature' => '-4',
+                'Feels Like' => '2',
+                'Pressure' => 1000,
+                'Humidity' => '20%',
+                'Wind' => '3.5 m/s',
+                'Cloudiness' => '75%',
+                'Icon' => 'snow',
+            ], 
+            [
+                'Date' => '2024-01-24', 
+                'Temperature' => '3',
+                'Feels Like' => '2',
+                'Pressure' => 9000,
+                'Humidity' => '70%',
+                'Wind' => '1.1 m/s',
+                'Cloudiness' => '25%',
+                'Icon' => 'sun',
+            ],        
+        ];
+        
+        $filter = fn (string $value, $location) => str_contains(haystack: $location, needle: $value) ? str_replace($value, ' ', $location) : $location;
+        $remove = ['_', '-'];
+
+        for ($i=0; $i < count($remove); $i++) { 
+            $location = $filter($remove[$i], $location);
+        }
+
+        $location = trim(ucwords($location));
+
+        return $this->render('weather/forecast.html.twig', [
+            'countryCode' => strtoupper($countryCode), 
+            'location' => $location, 
+            'forecasts' => $dummyData,
+        ]);
+    }
 }

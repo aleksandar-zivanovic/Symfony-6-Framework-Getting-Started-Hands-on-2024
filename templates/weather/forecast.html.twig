@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <h1>{{ location }}, {{ countryCode }}</h1>
+
+    <div>
+        {% for forecast in forecasts %}
+            <div class="dailyForecast-{{ forecast['Date'] }}">
+                {% for key, item in forecast %}
+                    {% if key == 'Date' %}
+                        <h2>{{key}}: {{item}}</h2>
+                    {% else %}
+                        <div><strong>{{key}}:</strong> {{item}}</div>
+                    {% endif %}                   
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

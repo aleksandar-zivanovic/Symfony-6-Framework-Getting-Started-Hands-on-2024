@@ -20,7 +20,7 @@ class WeatherController extends AbstractController
 {
 
     #[Route('/highlandersays/api')]
-    public function highlanderSaysApi(#[MapRequestPayload] ?HighlanderApiDTO $dto = null): Response
+    public function highlanderSaysApi(#[MapQueryString()] ?HighlanderApiDTO $dto = null): Response
     {
         if ($dto == null) {
             $dto = new HighlanderApiDTO();
@@ -44,7 +44,8 @@ class WeatherController extends AbstractController
                 referenceType: UrlGeneratorInterface::ABSOLUTE_PATH,
             ),
         ];
-        return new JsonResponse($json);
+        // return new JsonResponse($json);
+        return $this->json($json);
     }
 
     #[Route('/highlandersays/{threshold<\d+>}')]

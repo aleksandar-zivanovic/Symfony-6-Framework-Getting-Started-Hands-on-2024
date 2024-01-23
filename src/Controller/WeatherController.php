@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -17,7 +18,7 @@ class WeatherController extends AbstractController
 {
 
     #[Route('/highlandersays/api')]
-    public function highlanderSaysApi(#[MapQueryString] ?HighlanderApiDTO $dto = null): Response
+    public function highlanderSaysApi(#[MapRequestPayload] ?HighlanderApiDTO $dto = null): Response
     {
         if ($dto == null) {
             $dto = new HighlanderApiDTO();

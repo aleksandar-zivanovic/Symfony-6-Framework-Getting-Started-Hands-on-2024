@@ -1,3 +1,10 @@
-### GET request from highlander
-GET http://127.0.0.1:8000/weather/highlandersays
+### POST request from highlander api
+POST  http://127.0.0.1:8000/weather/highlandersays/api
 Accept: text/html
+Content-Type: application/json
+Accept: application/json
+
+{
+    "threshold": 50,
+    "trial": 10
+}

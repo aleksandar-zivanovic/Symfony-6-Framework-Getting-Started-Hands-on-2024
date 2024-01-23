@@ -8,6 +8,10 @@
         {{forecast}} <br>
     {% endfor %}
 
+    {% for message in app.flashes('info') %}
+        <div class="flash-info">Info: {{ message }}</div>
+    {% endfor %}
+
     {% if threshold %} Threshold is: {{threshold}} {% endif %}
 
     <nav>

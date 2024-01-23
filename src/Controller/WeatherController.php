@@ -7,6 +7,8 @@ namespace App\Controller;
 use App\Model\HighlanderApiDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -45,14 +47,34 @@ class WeatherController extends AbstractController
         return new JsonResponse($json);
     }
 
-    #[Route('/highlandersays/{threshold<\d+>?50}')]
-    public function highlanderSays(int $threshold): Response
+    #[Route('/highlandersays/{threshold<\d+>}')]
+    public function highlanderSays(
+        Request $request, 
+        RequestStack $requestStack, 
+        ?int $threshold = null): Response
     {
 
-        $draw = rand(1, 100);
-        $forecast = $draw < $threshold ? "It's going to rain!" : "It's going to be sunny";
+        $session = $requestStack->getSession();
+        if ($threshold) {
+            $session->set('threshold', $threshold);
+        } else {
+            $session->get('threshold', 50);
+        }
 
-        return $this->render('weather/highlander_says.html.twig', ['forecast' => $forecast,]);
+        $trials = $request->get(key: 'trials', default: 1);
+
+        $forecasts = [];
+
+        for ($i = 0; $i < $trials; $i++) {
+            $draw = random_int(0, 100);
+            $forecast = $draw < $threshold ? "It's going to rain" : "It's going to be sunny";
+            $forecasts[] = $forecast;
+        }
+
+        return $this->render('weather/highlander_says.html.twig', [
+            'forecasts' => $forecasts,
+            'threshold' => $threshold,
+        ]);
     }
 
     #[Route('/highlandersays/{guess}')]

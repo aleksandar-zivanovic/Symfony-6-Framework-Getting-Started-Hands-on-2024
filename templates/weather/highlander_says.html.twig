@@ -4,10 +4,14 @@
 
 {% block body %}
     <h1>Forecast prediction</h1>
-	{{ forecast }}
+	{% for forecast in forecasts %}
+        {{forecast}} <br>
+    {% endfor %}
+
+    {% if threshold %} Threshold is: {{threshold}} {% endif %}
 
     <nav>
-        <a href="{{ path('app_weather_highlandersays', {trashold:25}) }}">Try Again!</a>
+        <a href="{{ path('app_weather_highlandersays', {threshold:25}) }}">Try Again!</a>
     </nav>
 {% endblock %}
 

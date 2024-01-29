@@ -11,6 +11,14 @@
         {% endblock %}
     </head>
     <body>
+        <nav>
+            <ul>
+            {# path('home') u view page source ispisuje: <a href="/">Home</a> #}
+            {# url('home') u view page source ispisuje: <a href="https://127.0.0.1:8000/">Home</a> #}
+                <li><a href="{{ path('home') }}">Home</a></li>
+                <li><a href="{{ path('app_weather_highlandersays') }}">Highlender</a></li>
+            </ul>
+        </nav>
         {% block body %}{% endblock %}
     </body>
 </html>

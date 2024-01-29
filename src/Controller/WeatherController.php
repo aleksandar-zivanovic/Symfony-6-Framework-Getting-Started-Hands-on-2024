@@ -6,10 +6,12 @@ namespace App\Controller;
 
 use App\Model\HighlanderApiDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\MapDecorated;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,10 +51,12 @@ class WeatherController extends AbstractController
     }
 
     #[Route('/highlandersays/{threshold<\d+>}')]
+    // route example: https://127.0.0.1:8000/weather/highlandersays?trials=3&_format=json
     public function highlanderSays(
         Request $request, 
         RequestStack $requestStack, 
-        ?int $threshold = null): Response
+        ?int $threshold = null, 
+        #[MapQueryParameter] ?string $_format = 'html'): Response
     {
 
         $session = $requestStack->getSession();
@@ -60,7 +64,7 @@ class WeatherController extends AbstractController
             $session->set('threshold', $threshold);
             $this->addFlash("info", "You set threshold to $threshold");
         } else {
-            $session->get('threshold', 50);
+            $threshold = $session->get('threshold', 50);
         }
 
         $trials = $request->get(key: 'trials', default: 1);
@@ -73,7 +77,7 @@ class WeatherController extends AbstractController
             $forecasts[] = $forecast;
         }
 
-        return $this->render('weather/highlander_says.html.twig', [
+        return $this->render("weather/highlander_says.{$_format}.twig", [
             'forecasts' => $forecasts,
             'threshold' => $threshold,
         ]);

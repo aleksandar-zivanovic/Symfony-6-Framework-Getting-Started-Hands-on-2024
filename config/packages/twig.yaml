@@ -1,5 +1,8 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    # Global variables: https://symfony.com/doc/current/templates.html#global-variables
+    globals:
+        api_key: '%env(API_KEY)%'
 
 when@test:
     twig:

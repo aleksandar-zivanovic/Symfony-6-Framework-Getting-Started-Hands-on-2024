@@ -16,3 +16,16 @@ home:
         route: app_weather_highlandersays
         permanent: false
         threshold: 42
+
+# Rendering a Template Directly from a Route:
+# https://symfony.com/doc/current/templates.html#rendering-a-template-directly-from-a-route
+privacy:
+    path: /privacy-policy
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults: 
+        template: 'static/privacy_policy.html.twig'
+        # optionally you can define some arguments passed to the template
+        context:
+            page:
+                name: 'Privacy policy'
+                created: '2024-01-30'

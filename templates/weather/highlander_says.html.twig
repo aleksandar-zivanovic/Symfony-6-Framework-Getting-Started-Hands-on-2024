@@ -3,10 +3,7 @@
 {% block title %}Forecsat{% endblock %}
 
 {% block body %}
-<pre>
-    {{ dump(forecasts) }}
-    {% dump forecasts %}
-</pre>
+
     <h1>Forecast prediction</h1>
 	{% for forecast in forecasts %}
         {{forecast}} <br>

@@ -29,3 +29,9 @@ privacy:
             page:
                 name: 'Privacy policy'
                 created: '2024-01-30'
+
+xss:
+    path: /xss
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults: 
+        template: 'static/xss.html.twig'

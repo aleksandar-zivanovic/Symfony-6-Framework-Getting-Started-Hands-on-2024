@@ -16,8 +16,9 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/weather')]
+#[Route('/{_locale}/weather', requirements: ['_locale' => 'en|de'])]
 class WeatherController extends AbstractController
 {
 
@@ -55,6 +56,7 @@ class WeatherController extends AbstractController
     public function highlanderSays(
         Request $request, 
         RequestStack $requestStack, 
+        TranslatorInterface $translatorInterface, 
         ?int $threshold = null, 
         #[MapQueryParameter] ?string $_format = 'html'): Response
     {
@@ -62,7 +64,12 @@ class WeatherController extends AbstractController
         $session = $requestStack->getSession();
         if ($threshold) {
             $session->set('threshold', $threshold);
-            $this->addFlash("info", "You set threshold to $threshold");
+            $this->addFlash(
+                "info", 
+                $translatorInterface->trans("weather.highlandersays.success", [
+                    "%threshold%" => $threshold
+                ])
+            );
         } else {
             $threshold = $session->get('threshold', 50);
         }

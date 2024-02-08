@@ -13,16 +13,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class LocationDummyController extends AbstractController
 {
     #[Route('/create')]
-    public function create(EntityManagerInterface $entityManagerInterface): JsonResponse
+    public function create(LocationRepository $locationRepository): JsonResponse
     {
         $location = new Location();
-        $location->setName("Beograd")
+        $location->setName("Sirmijum")
             ->setCountryCode("RS")
             ->setLatitude(44.787197)
             ->setLongitude(20.457273);
 
-        $entityManagerInterface->persist($location);
-        $entityManagerInterface->flush();
+        // $entityManagerInterface->persist($location);
+        // $entityManagerInterface->flush();
+        // $em = $locationRepository->getEntityManager()->flush();
+
+        $locationRepository->save($location, true);
 
         return $this->json([
             'id' => $location->getId(),
@@ -30,14 +33,11 @@ class LocationDummyController extends AbstractController
     }
 
     #[Route('/edit')]
-    public function edit(
-        LocationRepository $locationRepository, 
-        EntityManagerInterface $entityManagerInterface
-        ): JsonResponse 
+    public function edit(LocationRepository $locationRepository): JsonResponse 
     {
-        $location = $locationRepository->find(6);
-        $location->setName("Belgrade");
-        $entityManagerInterface->flush();
+        $location = $locationRepository->find(7);
+        $location->setName("Singidunum");
+        $locationRepository->save($location, true);
 
         return new JsonResponse([
             'id' => $location->getId(),

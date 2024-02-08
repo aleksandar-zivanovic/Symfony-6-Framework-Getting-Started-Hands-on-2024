@@ -59,4 +59,71 @@ class LocationDummyController extends AbstractController
 
         return new JsonResponse();
     }
+
+    #[Route('/show/{code}')]
+    public function show(LocationRepository $locationRepository, string $code): JsonResponse
+    {
+        /********************************************
+        * pretraga po jedinstvenom parametru, 
+        * kada je rezultat samo jedn red(row) iz baze
+        *********************************************/
+        // $location = $locationRepository->findOneBy([
+        //     'name' => $name,
+        // ]);
+
+
+        /********************************************
+        * pretraga po zajedničkom parametru, 
+        * kada je rezultat više redova (rows) iz baze
+        *********************************************/
+        // $locations = $locationRepository->findBy([
+        //     'countryCode' => $code,
+        // ], [
+        //     'name' => 'ASC'
+        // ]);
+
+        
+        /********************************************* 
+        * isto kao i prethodnim primerima, samo sto funkciju
+        * nazivamo po propertiju i symfony automatski 
+        * zakljucuje sta da trazi
+        *********************************************/
+        $locations = $locationRepository->findByCountryCode($code);
+        
+        $json = [];
+        foreach ($locations as $location) {
+            $json[] = 
+                [
+                    'id' => $location->getId(),
+                    'name' => $location->getName(),
+                    'country_code' => $location->getCountryCode(),
+                    'latitude' => $location->getLatitude(),
+                    'longitude' => $location->getLongitude(),
+                ];
+        }
+
+        return new JsonResponse($json);
+    }
+
+    #[Route('/')]
+    public function index(LocationRepository $locationRepository): JsonResponse
+    {
+        $locations = $locationRepository->findAll();
+        // findAll() with OrderBy:
+        $locations = $locationRepository->findAll(['name' => 'ASC']);
+
+        $json = [];
+        foreach ($locations as $location) {
+            $json[] = 
+                [
+                    'id' => $location->getId(),
+                    'name' => $location->getName(),
+                    'country_code' => $location->getCountryCode(),
+                    'latitude' => $location->getLatitude(),
+                    'longitude' => $location->getLongitude(),
+                ];
+        }
+
+        return new JsonResponse($json);
+    }
 }

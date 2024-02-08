@@ -22,10 +22,17 @@ class LocationRepository extends ServiceEntityRepository
         parent::__construct($registry, Location::class);
     }
 
-    public function save(Location $location, bool $flush = false) {
+    public function save(Location $location, bool $flush = false): void {
         $em = $this->getEntityManager();
         $em->persist($location);
         $flush ? $em->flush() : '';
+    }
+
+    public function remove(Location $location, bool $flush = null): void 
+    {
+        $em = $this->getEntityManager();
+        $em->remove($location);
+        $flush ? $em->flush() : null;
     }
 
 //    /**

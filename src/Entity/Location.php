@@ -14,8 +14,11 @@ class Location
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     #[ORM\Column(length: 2)]
-    private ?string $contryCode = null;
+    private ?string $countryCode = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 7)]
     private ?string $latitude = null;
@@ -23,22 +26,31 @@ class Location
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 7)]
     private ?string $longitude = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getContryCode(): ?string
+    public function getName(): ?string
     {
-        return $this->contryCode;
+        return $this->name;
     }
 
-    public function setContryCode(string $contryCode): static
+    public function setName(string $name): static
     {
-        $this->contryCode = $contryCode;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCountryCode(): ?string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode): static
+    {
+        $this->countryCode = $countryCode;
 
         return $this;
     }
@@ -63,18 +75,6 @@ class Location
     public function setLongitude(string $longitude): static
     {
         $this->longitude = $longitude;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
 
         return $this;
     }

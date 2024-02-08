@@ -82,7 +82,7 @@ class LocationDummyController extends AbstractController
         //     'name' => 'ASC'
         // ]);
 
-        
+
         /********************************************* 
         * isto kao i prethodnim primerima, samo sto funkciju
         * nazivamo po propertiju i symfony automatski 
@@ -101,6 +101,25 @@ class LocationDummyController extends AbstractController
                     'longitude' => $location->getLongitude(),
                 ];
         }
+
+        return new JsonResponse($json);
+    }
+
+    // same as above, but with a custom method from Location Repository
+    #[Route('/show2/{name}')]
+    public function show2(LocationRepository $locationRepository, $name): JsonResponse
+    {
+        $location = $locationRepository->findOneByName($name);
+
+        $location ?? throw $this->createNotFoundException();
+        
+        $json = [
+            'id' => $location->getId(),
+            'name' => $location->getName(),
+            'country_code' => $location->getCountryCode(),
+            'latitude' => $location->getLatitude(),
+            'longitude' => $location->getLongitude(),
+        ];
 
         return new JsonResponse($json);
     }

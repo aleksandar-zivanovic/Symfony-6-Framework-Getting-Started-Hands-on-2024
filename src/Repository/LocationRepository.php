@@ -35,6 +35,20 @@ class LocationRepository extends ServiceEntityRepository
         $flush ? $em->flush() : null;
     }
 
+    public function findOneByName($name): ?Location
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->where('l.name = :name')
+            ->setParameter('name', $name)
+            // ->andWhere('l.countryCode = :code')
+            // ->setParameter('code', 'FR')
+        ;
+        $query = $qb->getQuery();
+        $result = $query->getOneOrNullResult();
+
+        return $result;
+    }
+
 //    /**
 //     * @return Location[] Returns an array of Location objects
 //     */

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Location;
 use App\Repository\LocationRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -113,6 +113,44 @@ class LocationDummyController extends AbstractController
 
         $location ?? throw $this->createNotFoundException();
         
+        $json = [
+            'id' => $location->getId(),
+            'name' => $location->getName(),
+            'country_code' => $location->getCountryCode(),
+            'latitude' => $location->getLatitude(),
+            'longitude' => $location->getLongitude(),
+        ];
+
+        return new JsonResponse($json);
+    }
+
+    /** Automatically Fetching Objects (EntityValueResolver) */
+    /****************************************************** 
+    * fetching from query parameter by EntityValueResolver
+    * (when query param name matches Entity property name)
+    *******************************************************/ 
+    #[Route('/show3/{name}')]
+    public function show3(Location $location): JsonResponse {
+        $json = [
+            'id' => $location->getId(),
+            'name' => $location->getName(),
+            'country_code' => $location->getCountryCode(),
+            'latitude' => $location->getLatitude(),
+            'longitude' => $location->getLongitude(),
+        ];
+
+        return new JsonResponse($json);
+    }
+
+    /** Automatically Fetching Objects (EntityValueResolver) */
+    /******************************************************************
+    * fetching from query parameter by EntityValueResolver via MapEntity
+    * (when query param name DOESN'T matche Entity property name)
+    *******************************************************************/ 
+    #[Route('/show4/{city}')]
+    public function show4(
+        #[MapEntity(mapping: ["city" => "name"])] Location $location
+    ): JsonResponse {
         $json = [
             'id' => $location->getId(),
             'name' => $location->getName(),

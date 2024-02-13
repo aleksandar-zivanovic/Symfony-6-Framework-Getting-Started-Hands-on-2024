@@ -171,13 +171,15 @@ class LocationDummyController extends AbstractController
     #[Route('/')]
     public function index(LocationRepository $locationRepository): JsonResponse
     {
-        $locations = $locationRepository->findAll();
+        // $locations = $locationRepository->findAll();
         // findAll() with OrderBy:
-        $locations = $locationRepository->findAll(['name' => 'ASC']);
+        // $locations = $locationRepository->findAll(['name' => 'ASC']);
+
+        $locations = $locationRepository->findAllWithForecasts();
 
         $json = [];
         foreach ($locations as $location) {
-            $json[] = 
+            $locationJson = 
                 [
                     'id' => $location->getId(),
                     'name' => $location->getName(),
@@ -185,6 +187,14 @@ class LocationDummyController extends AbstractController
                     'latitude' => $location->getLatitude(),
                     'longitude' => $location->getLongitude(),
                 ];
+        
+                foreach ($location->getForecasts() as $forecast) {
+                    $locationJson['forecsts'][$forecast->getDate()->format("Y-m-d")] = [
+                        'celsius' => $forecast->getCelsius(),
+                    ];
+                }
+
+                $json[] = $locationJson;
         }
 
         return new JsonResponse($json);

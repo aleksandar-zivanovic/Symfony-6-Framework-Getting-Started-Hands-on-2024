@@ -159,6 +159,12 @@ class LocationDummyController extends AbstractController
             'longitude' => $location->getLongitude(),
         ];
 
+        foreach ($location->getForecasts() as $forecast) {
+            $json['forecsts'][$forecast->getDate()->format("Y-m-d")] = [
+                'celsius' => $forecast->getCelsius(),
+            ];
+        }
+
         return new JsonResponse($json);
     }
 

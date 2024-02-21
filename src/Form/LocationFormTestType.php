@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class LocationFormTestType extends AbstractType
 {
@@ -27,35 +28,23 @@ class LocationFormTestType extends AbstractType
                     'United States' => 'US',
                     'India' => 'IN',
                 ],
-                // 'attr' => ['class' => 'dropdown'],
-                // 'choice_attr' => [
-                //     'Choose a country' => ['class' => 'dropdown-item'],
-                //     'Poland' => ['class' => 'dropdown-item'],
-                //     'France' => ['class' => 'dropdown-item'],
-                //     'Germany' => ['class' => 'dropdown-item'],
-                //     'Spain' => ['class' => 'dropdown-item'],
-                //     'United Kingdom' => ['class' => 'dropdown-item'],
-                //     'United States' => ['class' => 'dropdown-item'],
-                //     'India' => ['class' => 'dropdown-item'],
-                // ],
             ])
             ->add('latitude', NumberType::class, [
                 'html5' => true,
                 'attr' => [
                     'min' => -90,
                     'max' => 90,
-                    'step' => 0.1,
                 ]
             ])
             ->add('longitude', NumberType::class, [
                 'html5' => true,
                 'attr' => [
-                    'min' => 180,
-                    'max' => -180,
-                    'step' => 0.1,
+                    'min' => -180,
+                    'max' => 180,
                 ]
-            ]
-        );
+            ])
+            ->add('submit', SubmitType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

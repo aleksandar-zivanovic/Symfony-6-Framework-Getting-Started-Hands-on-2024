@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Location;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use PhpParser\Node\Expr\Cast\Bool_;
 
 /**
  * @extends ServiceEntityRepository<Location>

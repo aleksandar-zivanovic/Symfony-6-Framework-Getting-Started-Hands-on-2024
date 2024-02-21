@@ -18,7 +18,7 @@ class LocationFormTestType extends AbstractType
             ->add('name', TextType::class)
             ->add('countryCode', ChoiceType::class, [
                 'choices' => [
-                    '' => null,
+                    'Choose a country' => null,
                     'Poland' => 'PL',
                     'France' => 'FR',
                     'Germany' => 'DE',
@@ -26,7 +26,18 @@ class LocationFormTestType extends AbstractType
                     'United Kingdom' => 'UK',
                     'United States' => 'US',
                     'India' => 'IN',
-                ]
+                ],
+                // 'attr' => ['class' => 'dropdown'],
+                // 'choice_attr' => [
+                //     'Choose a country' => ['class' => 'dropdown-item'],
+                //     'Poland' => ['class' => 'dropdown-item'],
+                //     'France' => ['class' => 'dropdown-item'],
+                //     'Germany' => ['class' => 'dropdown-item'],
+                //     'Spain' => ['class' => 'dropdown-item'],
+                //     'United Kingdom' => ['class' => 'dropdown-item'],
+                //     'United States' => ['class' => 'dropdown-item'],
+                //     'India' => ['class' => 'dropdown-item'],
+                // ],
             ])
             ->add('latitude', NumberType::class, [
                 'html5' => true,

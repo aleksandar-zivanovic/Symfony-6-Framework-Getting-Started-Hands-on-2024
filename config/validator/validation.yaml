@@ -8,3 +8,18 @@ App\Entity\Location:
           max: 35
           minMessage: "Name must be at least {{ limit }} characters long."
           maxMessage: "Name must not be longer than {{ limit }} characters."
+    countryCode:
+      - NotBlank:
+          message: "Couuntry code must be {{ limit }} characters long."
+    latitude:
+      - NotBlank: ~
+      - Range:
+          min: -90
+          max: 90
+          notInRangeMessage: "{{ label }} must be between {{ min }} and {{ max }} degrees."
+    longitude:
+      - NotBlank: ~
+      - Range:
+          min: -180
+          max: 180
+          notInRangeMessage: "{{ label }} must be between {{ min }} and {{ max }} degrees."

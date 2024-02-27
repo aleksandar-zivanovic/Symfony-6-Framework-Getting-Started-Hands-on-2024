@@ -1,0 +1,10 @@
+App\Entity\Location:
+  properties:
+    name:
+      - NotBlank:
+          message: "Name must not be empty."
+      - Length:
+          min: 2
+          max: 35
+          minMessage: "Name must be at least {{ limit }} characters long."
+          maxMessage: "Name must not be longer than {{ limit }} characters."

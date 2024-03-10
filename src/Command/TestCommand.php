@@ -23,26 +23,37 @@ class TestCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
+        // $this
+        //     ->addArgument(name: "username", mode:InputArgument::OPTIONAL, description: "Name of a user", default: "User");
+
+        // $this->
+        //     addOption(name: 'username', shortcut: 'u', mode: InputOption::VALUE_OPTIONAL, description: 'Name of an user to greet', default: "user");
+
+        $this->
+            addOption(
+                name: 'username', 
+                shortcut: 'u', 
+                mode: InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 
+                description: 'Name of an user to greet');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        // $output->writeln([
+        //     "This is a message!",
+        //     "Another line!",
+        // ]);
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
+        // $output->write([
+        //     "Single ",
+        //     "line ",
+        //     "message!",
+        // ]);
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
-
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        // $username = $input->getArgument('username');
+        $username = $input->getOption('username');
+        // $output->write("Welcome back, $username!");
+        $output->write("Welcome back, " . implode(separator:', ', array:$username) . "!");
 
         return Command::SUCCESS;
     }

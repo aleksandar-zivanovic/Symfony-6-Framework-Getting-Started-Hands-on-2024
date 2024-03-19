@@ -19,3 +19,10 @@ id=999&value=content
 ### DELETE
 DELETE https://httpbin.org/delete?id=123
 Accept: application/json
+
+### Code from Postman as cURL
+curl --location --request DELETE 'https://httpbin.org/delete?id=493'
+
+### Code from Postman as HTTP
+DELETE /delete?id=123 HTTP/1.1
+Host: httpbin.org

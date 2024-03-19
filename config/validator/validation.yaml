@@ -36,3 +36,13 @@ App\Entity\Location:
       - NotEqualTo:
           value: 0
           groups: ['edit']
+
+App\Model\HighlanderApiDTO:
+  properties:
+    threshold:
+      - Range:
+          min: 0
+          max: 100
+    trial:
+      - GreaterThanOrEqual:
+          value: 1

@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Encoder\YamlEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/v1/weather')]
 class WeatherApiController extends AbstractController
@@ -55,6 +58,55 @@ class WeatherApiController extends AbstractController
         $content = $this->renderView('weather_api/csv_twig.csv.twig', [
             'location' => $location,
         ]);
+
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+
+        return $response;
+    }
+
+    #[Route('/serializer/json/{id}')]
+    public function serializerJson(
+        Location $location, 
+        SerializerInterface $serializer,    
+    ): Response
+    {
+       $content = $serializer->serialize($location, 'json', [
+        AbstractNormalizer::IGNORED_ATTRIBUTES => ['location'],
+       ]);
+
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'applicaion/json');
+
+        return $response;
+    }
+
+    #[Route('/serializer/yaml/{id}')]
+    public function serializerYaml(
+        Location $location, 
+        SerializerInterface $serializer,    
+    ): Response
+    {
+       $content = $serializer->serialize($location, 'yaml', [
+        AbstractNormalizer::IGNORED_ATTRIBUTES => ['location'], 
+        YamlEncoder::YAML_INLINE => 3,  // The level where you switch to inline YAML
+       ]);
+
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/yaml');
+
+        return $response;
+    }
+
+    #[Route('/serializer/csv/{id}')]
+    public function serializerCsv(
+        Location $location, 
+        SerializerInterface $serializer,    
+    ): Response
+    {
+       $content = $serializer->serialize($location, 'csv', [
+        AbstractNormalizer::IGNORED_ATTRIBUTES => ['location'], 
+       ]);
 
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');

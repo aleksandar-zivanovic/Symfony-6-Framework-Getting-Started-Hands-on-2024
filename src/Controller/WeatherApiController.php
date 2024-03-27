@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Location;
+use App\Repository\ForecastRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Encoder\YamlEncoder;
@@ -112,5 +115,33 @@ class WeatherApiController extends AbstractController
         $response->headers->set('Content-Type', 'text/csv');
 
         return $response;
+    }
+
+    #[Route('/forecast/{id}/{date}')]
+    public function patchForecastPayloadAction(
+        Request $request,
+        ForecastRepository $forecastRepository, 
+        EntityManagerInterface $em, 
+        int $id, 
+        string $date,
+    ): JsonResponse
+    {
+        // $celsius = $request->getPayload()->get('celsius');
+        $payload = $request->toArray();
+        $celsius = $payload['celsius'];
+
+        $forecast = $forecastRepository->findOneBy([
+            'location' => $id, 
+            'date' => new \DateTime($date),
+        ]);
+
+        if (!$forecast) {
+            throw $this->createNotFoundException();
+        }
+
+        $forecast->setCelsius($celsius);
+        $em->flush();
+
+        return $this->json(['success' => true]);
     }
 }
